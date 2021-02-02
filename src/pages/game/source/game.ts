@@ -4,12 +4,14 @@ export default function game(canvas) {
 
   let frames = 0;
   const som_HIT = new Audio();
-  som_HIT.src = './game/efeitos/hit.wav';
+  som_HIT.src = './game-assets/efeitos/hit.wav';
 
   const sprites = new Image();
-  sprites.src = './game/sprites.png';
+  sprites.src = './game-assets/sprites.png';
 
   const contexto = canvas.getContext('2d');
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
 
 
   // [Plano de Fundo]
@@ -31,14 +33,15 @@ export default function game(canvas) {
         planoDeFundo.x, planoDeFundo.y,
         planoDeFundo.largura, planoDeFundo.altura,
       );
-
-      contexto.drawImage(
-        sprites,
-        planoDeFundo.spriteX, planoDeFundo.spriteY,
-        planoDeFundo.largura, planoDeFundo.altura,
-        (planoDeFundo.x + planoDeFundo.largura), planoDeFundo.y,
-        planoDeFundo.largura, planoDeFundo.altura,
-      );
+      for (let index = 0; index < (canvas.width / planoDeFundo.largura) + 1; index++) {
+        contexto.drawImage(
+          sprites,
+          planoDeFundo.spriteX, planoDeFundo.spriteY,
+          planoDeFundo.largura, planoDeFundo.altura,
+          (planoDeFundo.x + (planoDeFundo.largura * index)), planoDeFundo.y,
+          planoDeFundo.largura, planoDeFundo.altura,
+        );
+      }
     },
   };
 
@@ -70,14 +73,15 @@ export default function game(canvas) {
           chao.x, chao.y,
           chao.largura, chao.altura,
         );
-    
-        contexto.drawImage(
-          sprites,
-          chao.spriteX, chao.spriteY,
-          chao.largura, chao.altura,
-          (chao.x + chao.largura), chao.y,
-          chao.largura, chao.altura,
-        );
+        for (let index = 0; index < (canvas.width / chao.largura) + 1; index++) {
+          contexto.drawImage(
+            sprites,
+            chao.spriteX, chao.spriteY,
+            chao.largura, chao.altura,
+            (chao.x + (chao.largura * index)), chao.y,
+            chao.largura, chao.altura,
+          );
+        }
       },
     };
     return chao;

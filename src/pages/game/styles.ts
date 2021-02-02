@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
 export const Canvas = styled.canvas`
-  width: 300px;
-  height: 600px;
+  width: 100%;
+  height: 100vh;
 `
