@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/pages/game/source/game.js"  ],
   "exclude": [
     "node_modules"
   ]
