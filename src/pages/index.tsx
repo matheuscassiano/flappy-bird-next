@@ -1,16 +1,23 @@
 import { AppProps } from 'next/dist/next-server/lib/router/router'
-import styled from 'styled-components'
+import serviceLogin from '../services/login'
+import { Button, Container, Input } from '../styles'
 
-const Text = styled.h1`
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 300;
-`
 const Home: React.FC<AppProps> = () => {
-  return <Text>My Typescript Page</Text>
+  return (
+    <Container>
+      <form onSubmit={login}>
+        <Input type="email" name="email" placeholder="Email" />
+        <Input type="password" name="password" placeholder="Senha" />
+        <Button>Login</Button>
+      </form>
+    </Container>
+  )
+}
+
+async function login(e) {
+  e.preventDefault()
+  const loginResponse = await serviceLogin(e.currentTarget[0].value, e.currentTarget[1].value)
+  localStorage.setItem('token', loginResponse.access_token)
 }
 
 export default Home
