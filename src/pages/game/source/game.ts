@@ -1,7 +1,4 @@
 export default function game(canvas) {
-  console.log('[DevSoutinho] Flappy Bird');
-  console.log('Inscreva-se no canal :D https://www.youtube.com/channel/UCzR2u5RWXWjUh7CwLSvbitA');
-
   let frames = 0;
   const som_HIT = new Audio();
   som_HIT.src = './game-assets/efeitos/hit.wav';
@@ -59,10 +56,6 @@ export default function game(canvas) {
         const repeteEm = chao.largura / 2;
         const movimentacao = chao.x - movimentoDoChao;
 
-        // console.log('[chao.x]', chao.x);
-        // console.log('[repeteEm]',repeteEm);
-        // console.log('[movimentacao]', movimentacao % repeteEm);
-        
         chao.x = movimentacao % repeteEm;
       },
       desenha() {
@@ -108,16 +101,12 @@ export default function game(canvas) {
       y: 50,
       pulo: 4.6,
       pula() {
-        console.log('devo pular');
-        console.log('[antes]', flappyBird.velocidade);
         flappyBird.velocidade =  - flappyBird.pulo;
-        console.log('[depois]', flappyBird.velocidade);
       },
       gravidade: 0.25,
       velocidade: 0,
       atualiza() {
         if(fazColisao(flappyBird, globais.chao)) {
-          console.log('Fez colisao');
           som_HIT.play();
 
           mudaParaTela(Telas.GAME_OVER);
@@ -137,7 +126,6 @@ export default function game(canvas) {
       atualizaOFrameAtual() {     
         const intervaloDeFrames = 10;
         const passouOIntervalo = frames % intervaloDeFrames === 0;
-        // console.log('passouOIntervalo', passouOIntervalo)
 
         if(passouOIntervalo) {
           const baseDoIncremento = 1;
@@ -145,9 +133,6 @@ export default function game(canvas) {
           const baseRepeticao = flappyBird.movimentos.length;
           flappyBird.frameAtual = incremento % baseRepeticao
         }
-          // console.log('[incremento]', incremento);
-          // console.log('[baseRepeticao]',baseRepeticao);
-          // console.log('[frame]', incremento % baseRepeticao);
       },
       desenha() {
         flappyBird.atualizaOFrameAtual();
@@ -278,7 +263,6 @@ export default function game(canvas) {
       atualiza() {
         const passou100Frames = frames % 100 === 0;
         if(passou100Frames) {
-          console.log('Passou 100 frames');
           canos.pares.push({
             x: canvas.width,
             y: -150 * (Math.random() + 1),
