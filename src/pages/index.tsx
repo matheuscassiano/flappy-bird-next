@@ -18,8 +18,12 @@ const Home: React.FC<AppProps> = () => {
 
 async function login(e, router) {
   e.preventDefault()
-  const loginResponse = await serviceLogin(e.currentTarget[0].value, e.currentTarget[1].value)
+  const email = e.currentTarget[0].value;
+  const pass = e.currentTarget[1].value;
+
+  const loginResponse = await serviceLogin(email, pass)
   localStorage.setItem('token', loginResponse.access_token)
+  localStorage.setItem('email', email)
   setTimeout(() => { router.push('/game') })
 }
 

@@ -1,4 +1,15 @@
-export default function game(canvas) {
+import serviceRegisterPointes from '../../../services/registerPoints'
+import serviceGetUsers from '../../../services/getUsers'
+
+export default async function game(canvas) {
+  const state = {
+    playing: true,
+    email: localStorage.getItem('email'),
+    token: localStorage.getItem('token'),
+    lifes: 3,
+    points: 0,
+  }
+
   let frames = 0;
   const som_HIT = new Audio();
   som_HIT.src = './game-assets/efeitos/hit.wav';
@@ -84,10 +95,8 @@ export default function game(canvas) {
     const flappyBirdY = flappyBird.y + flappyBird.altura;
     const chaoY = chao.y;
 
-    if(flappyBirdY >= chaoY) {
-      return true;
-    }
-
+    if(flappyBirdY >= chaoY) { return true; }
+    
     return false;
   }
 
@@ -108,7 +117,9 @@ export default function game(canvas) {
       atualiza() {
         if(fazColisao(flappyBird, globais.chao)) {
           som_HIT.play();
-
+          (async () => {
+            await serviceRegisterPointes(state.email, state.points , state.token)
+          })()
           mudaParaTela(Telas.GAME_OVER);
           return;
         }
@@ -263,20 +274,21 @@ export default function game(canvas) {
       atualiza() {
         const passou100Frames = frames % 100 === 0;
         if(passou100Frames) {
+          state.points = frames / 100;
           canos.pares.push({
             x: canvas.width,
             y: -150 * (Math.random() + 1),
           });
         }
 
-
-
         canos.pares.forEach(function(par) {
           par.x = par.x - 2;
 
           if(canos.temColisaoComOFlappyBird(par)) {
-            console.log('Você perdeu!')
             som_HIT.play();
+            (async () => {
+              await serviceRegisterPointes(state.email, state.points , state.token)
+            })()
             mudaParaTela(Telas.GAME_OVER);
           }
 
@@ -320,7 +332,7 @@ export default function game(canvas) {
   let telaAtiva = {};
   function mudaParaTela(novaTela) {
     telaAtiva = novaTela;
-
+    
     if(telaAtiva.inicializa) {
       telaAtiva.inicializa();
     }
@@ -329,6 +341,7 @@ export default function game(canvas) {
   const Telas = {
     INICIO: {
       inicializa() {
+        isALive(state)
         globais.flappyBird = criaFlappyBird();
         globais.chao = criaChao();
         globais.canos = criaCanos();
@@ -341,7 +354,9 @@ export default function game(canvas) {
         mensagemGetReady.desenha();
       },
       click() {
-        mudaParaTela(Telas.JOGO);
+        if (state.playing) {
+          mudaParaTela(Telas.JOGO);
+        }
       },
       atualiza() {
         globais.chao.atualiza();
@@ -375,16 +390,16 @@ export default function game(canvas) {
     desenha() {
       mensagemGameOver.desenha();
     },
-    atualiza() {
-      
-    },
+    atualiza() {},
     click() {
-      mudaParaTela(Telas.INICIO);
+      if (state.playing) {
+        isALive(state)
+        mudaParaTela(Telas.INICIO);
+      }
     }
   }
 
   function loop() {
-
     telaAtiva.desenha();
     telaAtiva.atualiza();
 
@@ -401,4 +416,13 @@ export default function game(canvas) {
 
   mudaParaTela(Telas.INICIO);
   loop();
+}
+
+
+async function isALive(state) {
+  const user = await serviceGetUsers(state.email, state.token)
+  state.lifes = user.lifes;
+  state.points = user.points;
+  console.log(state.lifes)
+  if (state.lifes <= 0){ state.playing = false}
 }
