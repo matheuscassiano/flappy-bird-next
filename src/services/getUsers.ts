@@ -1,10 +1,10 @@
-export default async function serviceRegisterPointes(email: string, token: string) {
+export default async function serviceGetUsers(email: string, token: string) {
     const Header = new Headers();
     Header.append('Content-Type', 'application/json');
-    Header.append('Authoriaztion', `Bearer ${token}`);
+    Header.append('Authorization', `Bearer ${token}`);
 
     const response: any = await fetch('http://localhost:3100/user/email', {
-        method: 'GET',
+        method: 'POST',
         headers: Header,
         body: JSON.stringify({ email })
     })

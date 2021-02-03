@@ -1,7 +1,7 @@
 export default async function serviceRegisterPointes(email: string, points: number, token: string) {
     const Header = new Headers();
     Header.append('Content-Type', 'application/json');
-    Header.append('Authoriaztion', `Bearer ${token}`);
+    Header.append('Authorization', `Bearer ${token}`);
 
     const response: any = await fetch('http://localhost:3100/points', {
         method: 'POST',
