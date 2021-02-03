@@ -1,3 +1,4 @@
+import serviceRegisterPointes from '../../../services/registerPoints'
 export default function game(canvas) {
   let frames = 0;
   const som_HIT = new Audio();
@@ -274,7 +275,10 @@ export default function game(canvas) {
           par.x = par.x - 2;
 
           if(canos.temColisaoComOFlappyBird(par)) {
-            console.log('Você perdeu!')
+            const email = localStorage.getItem('email')
+            const token = localStorage.getItem('token')
+            serviceRegisterPointes(email, 5, token)
+
             som_HIT.play();
             mudaParaTela(Telas.GAME_OVER);
           }
