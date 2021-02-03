@@ -14,9 +14,10 @@ const Home: React.FC<AppProps> = () => {
   )
 }
 
-function login(e) {
+async function login(e) {
   e.preventDefault()
-  serviceLogin(e.currentTarget[0].value, e.currentTarget[1].value)
+  const loginResponse = await serviceLogin(e.currentTarget[0].value, e.currentTarget[1].value)
+  localStorage.setItem('token', loginResponse.access_token)
 }
 
 export default Home
