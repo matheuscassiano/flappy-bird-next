@@ -1,5 +1,8 @@
 import serviceRegisterPointes from '../../../services/registerPoints'
 export default function game(canvas) {
+  const state = {
+    playing: true
+  }
   let frames = 0;
   const som_HIT = new Audio();
   som_HIT.src = './game-assets/efeitos/hit.wav';
@@ -323,7 +326,7 @@ export default function game(canvas) {
   let telaAtiva = {};
   function mudaParaTela(novaTela) {
     telaAtiva = novaTela;
-
+    
     if(telaAtiva.inicializa) {
       telaAtiva.inicializa();
     }
@@ -344,7 +347,9 @@ export default function game(canvas) {
         mensagemGetReady.desenha();
       },
       click() {
-        mudaParaTela(Telas.JOGO);
+        if (state.playing) {
+          mudaParaTela(Telas.JOGO);
+        }
       },
       atualiza() {
         globais.chao.atualiza();
