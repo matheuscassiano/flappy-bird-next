@@ -20,6 +20,7 @@ async function login(e, router) {
   e.preventDefault()
   const loginResponse = await serviceLogin(e.currentTarget[0].value, e.currentTarget[1].value)
   localStorage.setItem('token', loginResponse.access_token)
+  localStorage.setItem('email', e.currentTarget[0].value)
   setTimeout(() => { router.push('/game') })
 }
 

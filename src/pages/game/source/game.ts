@@ -263,13 +263,12 @@ export default function game(canvas) {
       atualiza() {
         const passou100Frames = frames % 100 === 0;
         if(passou100Frames) {
+          console.log(frames / 100)
           canos.pares.push({
             x: canvas.width,
             y: -150 * (Math.random() + 1),
           });
         }
-
-
 
         canos.pares.forEach(function(par) {
           par.x = par.x - 2;
