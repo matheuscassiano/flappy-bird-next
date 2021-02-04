@@ -12,4 +12,6 @@ export default createGlobalStyle`
     color: ${props => props.theme.color.text};
     background-color: ${props => props.theme.color.background};
   }
+
+  button, input { border: none; }
 `
