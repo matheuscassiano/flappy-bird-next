@@ -16,9 +16,9 @@ const Home: React.FC<AppProps> = () => {
     setRoutePermission(permission.accept);
     game(canvasRef.current);
   }, [])
-  return (routePermission ? (
+  return routePermission ? (
     <Canvas ref={canvasRef}></Canvas>
-  ) : setTimeout(() => { router.push('/') }))
+  ) : setTimeout(() => { router.push('/') })
 }
 
 export default Home
