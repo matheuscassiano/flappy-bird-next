@@ -22,9 +22,12 @@ async function login(e, router) {
   const pass = e.currentTarget[1].value;
 
   const loginResponse = await serviceLogin(email, pass)
-  localStorage.setItem('token', loginResponse.access_token)
-  localStorage.setItem('email', email)
-  setTimeout(() => { router.push('/game') })
+  console.log(loginResponse)
+  localStorage.setItem('token', loginResponse.access_token || null)
+  localStorage.setItem('email', email || null)
+  if (email && pass && loginResponse.access_token) {
+    setTimeout(() => { router.push('/game') })
+  }
 }
 
 export default Home
